@@ -1,0 +1,36 @@
+language: c
+os: osx
+
+env:
+  - PACKAGE_NAME=gits
+
+before_script:
+  - export CHOOSENIM_NO_ANALYTICS=1
+  - export CHOOSENIM_CHOOSE_VERSION="stable"
+  - curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
+  - sh init.sh -y
+
+script:
+  - export PATH="$HOME/.nimble/bin:$PATH"
+  - mkdir -p dist/
+
+  - nimble build -d:release --passc:"-flto" -y
+  - strip "$PACKAGE_NAME"
+  - mkdir -p "$PACKAGE_NAME-macos-x86_64/"
+  - mv "$PACKAGE_NAME" "$PACKAGE_NAME-macos-x86_64/"
+  - cp README.md LICENSE.md "$PACKAGE_NAME-macos-x86_64/"
+  - tar cfJ "dist/$PACKAGE_NAME-macos-x86_64.tar.xz" "$PACKAGE_NAME-macos-x86_64/"
+
+after_success:
+  - if [[ "$TRAVIS_TAG" != "" ]]; then
+      go get github.com/itchio/gothub;
+      export PATH="$HOME/go/bin:$PATH";
+      gothub release
+          --tag "$TRAVIS_TAG" || true;
+      gothub upload
+          --tag "$TRAVIS_TAG"
+          --name "$PACKAGE_NAME-$TRAVIS_TAG-macos-x86_64.tar.xz"
+          --file "dist/$PACKAGE_NAME-macos-x86_64.tar.xz";
+    else
+      echo "Not a tag, skipping deployment.";
+    fi;

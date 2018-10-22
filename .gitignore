@@ -1,0 +1,6 @@
+# Compiled executables
+gits
+gits.exe
+
+# Build cache
+nimcache/
