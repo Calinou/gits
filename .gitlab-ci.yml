@@ -28,9 +28,9 @@ build:
 
     # Windows 64-bit
     - nimble build -d:release --passc:"-flto" -d:crosswin
-    - strip "$PACKAGE_NAME"
+    - strip "$PACKAGE_NAME.exe"
     - mkdir -p "$PACKAGE_NAME-windows-x86_64/"
-    - mv "$PACKAGE_NAME" "$PACKAGE_NAME-windows-x86_64/$PACKAGE_NAME.exe"
+    - mv "$PACKAGE_NAME.exe" "$PACKAGE_NAME-windows-x86_64/"
     - cp README.md LICENSE.md "$PACKAGE_NAME-windows-x86_64/"
     - zip -r9 "dist/$PACKAGE_NAME-windows-x86_64.zip" "$PACKAGE_NAME-windows-x86_64/"
 
@@ -40,9 +40,9 @@ build:
     - rm /usr/bin/x86_64-w64-mingw32-gcc
     - ln -s /usr/bin/i686-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc
     - nimble build -d:release --passc:"-flto" -d:crosswin --cpu:i386
-    - strip "$PACKAGE_NAME"
+    - strip "$PACKAGE_NAME.exe"
     - mkdir -p "$PACKAGE_NAME-windows-x86/"
-    - mv "$PACKAGE_NAME" "$PACKAGE_NAME-windows-x86/$PACKAGE_NAME.exe"
+    - mv "$PACKAGE_NAME.exe" "$PACKAGE_NAME-windows-x86/"
     - cp README.md LICENSE.md "$PACKAGE_NAME-windows-x86/"
     - zip -r9 "dist/$PACKAGE_NAME-windows-x86.zip" "$PACKAGE_NAME-windows-x86/"
   artifacts:
