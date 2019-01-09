@@ -33,7 +33,7 @@ Using this installation method, gits will be immediately available in your `PATH
 
 Type the following command in any directory containing Git repositories:
 
-```
+```text
 gits
 ```
 
