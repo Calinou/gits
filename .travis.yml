@@ -24,8 +24,10 @@ script:
 
 after_success:
   - if [[ "$TRAVIS_TAG" != "" ]]; then
-      go get github.com/itchio/gothub;
-      export PATH="$HOME/go/bin:$PATH";
+      curl -fsSLO "https://github.com/Calinou/gothub/releases/download/v0.7.1/gothub_0.7.1_macos_x86_64.tar.gz"
+      tar xf "gothub_0.7.1_macos_x86_64.tar.gz"
+      mv "gothub_0.7.1_macos_x86_64/gothub" "/usr/local/bin/gothub"
+
       gothub release
           --tag "$TRAVIS_TAG" || true;
       gothub upload

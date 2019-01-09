@@ -58,10 +58,10 @@ deploy:
   only:
     - tags
   before_script:
-    - dnf install golang -y
-    - go get github.com/itchio/gothub
+    - curl -fsSLO "https://github.com/Calinou/gothub/releases/download/v0.7.1/gothub_0.7.1_linux_x86_64.tar.gz"
+    - tar xf "gothub_0.7.1_linux_x86_64.tar.gz"
+    - mv "gothub_0.7.1_linux_x86_64/gothub" "/usr/local/bin/gothub"
   script:
-    - export PATH="$HOME/go/bin:$PATH"
     - gothub release
           --tag "$CI_COMMIT_TAG" || true
     - gothub upload
